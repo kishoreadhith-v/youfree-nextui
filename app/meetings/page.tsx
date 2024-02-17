@@ -32,23 +32,23 @@ const userid = "65cfa787ac08f4b997cbb389";
 type Member = { key: string; label: string };
 
 const items = [
-  { key: "edit", label: "Edit" },
-  { key: "delete", label: "Delete" },
-  { key: "copy", label: "Copy" },
-  { key: "cut", label: "Cut" },
+  { key: "edit", label: "ImagineerX team" },
+  { key: "nope", label: "csea tech vertical" },
+  { key: "copy", label: "Abinav gaming club" },
+  { key: "cut", label: "Turf" },
 ];
 
 const memberList: Member[] = [
-  { key: "text", label: "Text" },
-  { key: "number", label: "Number" },
-  { key: "date", label: "Date" },
-  { key: "single_date", label: "Single Date" },
-  { key: "iteration", label: "Iteration" },
+  { key: "Abinav", label: "Abinav" },
+  { key: "Dhakksin", label: "Dhakksin" },
+  { key: "Leo", label: "Leo" },
+  { key: "Mohan", label: "Mohan" },
+  { key: "Kishore", label: "Kishore" },
 ];
 
 export default function DocsPage() {
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
-    new Set(["text"])
+    new Set([])
   );
   const [organisations, setOrganisations] = useState<Organisation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -93,20 +93,24 @@ export default function DocsPage() {
               <Input placeholder="Enter Meeting Description" />
             </div>
             <div>
+              <p>Meeting link</p>
+              <Input placeholder="Enter vc url" />
+            </div>
+            <div>
               <p>Meeting Team</p>
               <div className="">
                 <Dropdown>
                   <DropdownTrigger>
-                    <Button variant="bordered">Open Menu</Button>
+                    <Button variant="bordered">Select Team</Button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Dynamic Actions">
-                    {organisations.map((org) => (
+                    {items.map((item) => (
                       <DropdownItem
-                        key={org.id}
-                        color={org.id === "delete" ? "danger" : "default"}
-                        className={org.id === "delete" ? "text-danger" : ""}
+                        key={item.key}
+                        color={item.key === "delete" ? "danger" : "default"}
+                        className={item.key === "delete" ? "text-danger" : ""}
                       >
-                        {org.name}
+                        {item.label}
                       </DropdownItem>
                     ))}
                   </DropdownMenu>
@@ -118,7 +122,7 @@ export default function DocsPage() {
               <Dropdown>
                 <DropdownTrigger>
                   <Button variant="bordered" className="capitalize">
-                    {selectedValue}
+                    {selectedValue} Select Members
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
