@@ -36,31 +36,84 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getUserOrganisations = exports.getOrganisationMembers = exports.getMeeting = void 0;
 var axios_1 = require("axios");
-var getMeeting = function (meetingName) { return __awaiter(void 0, void 0, void 0, function () {
-    var response, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, axios_1.default.get("https://youfreebackend.onrender.com/meeting/getMeeting/".concat(meetingName))];
-            case 1:
-                response = _a.sent();
-                return [2 /*return*/, response.data];
-            case 2:
-                error_1 = _a.sent();
-                console.error("Error fetching meeting:", error_1);
-                throw error_1;
-            case 3: return [2 /*return*/];
-        }
+function getMeeting(meetingName) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.get("https://youfreebackend.onrender.com/meeting/getMeeting/".concat(meetingName))];
+                case 1:
+                    response = _a.sent();
+                    return [2 /*return*/, response.data];
+                case 2:
+                    error_1 = _a.sent();
+                    console.error("Error fetching meeting:", error_1);
+                    throw error_1;
+                case 3: return [2 /*return*/];
+            }
+        });
     });
-}); };
-// Example usage:
-var meetingName = "test";
-getMeeting(meetingName)
-    .then(function (res) {
-    console.log(res);
+}
+exports.getMeeting = getMeeting;
+function getOrganisationMembers(organisationName) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.get("https://youfreebackend.onrender.com/organisation/getOrganisationMembers/".concat(organisationName))];
+                case 1:
+                    response = _a.sent();
+                    return [2 /*return*/, response.data];
+                case 2:
+                    error_2 = _a.sent();
+                    console.error("Error fetching organisation members:", error_2);
+                    throw error_2;
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.getOrganisationMembers = getOrganisationMembers;
+function getUserOrganisations(userId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.get("https://youfreebackend.onrender.com/organisation/getUserOrganisations/".concat(userId))];
+                case 1:
+                    response = _a.sent();
+                    return [2 /*return*/, response.data];
+                case 2:
+                    error_3 = _a.sent();
+                    console.error("Error fetching user organisations:", error_3);
+                    throw error_3;
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.getUserOrganisations = getUserOrganisations;
+var organisationName = "HackathonTeam";
+getOrganisationMembers(organisationName)
+    .then(function (members) {
+    console.log("Organisation members:", members);
 })
     .catch(function (error) {
-    console.error("Error:", error);
+    console.error("Error fetching organisation members:", error);
+});
+var userId = "65cfa787ac08f4b997cbb389";
+getUserOrganisations(userId)
+    .then(function (organisations) {
+    console.log("User organisations:", organisations);
+})
+    .catch(function (error) {
+    console.error("Error fetching user organisations:", error);
 });
