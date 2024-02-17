@@ -1,8 +1,6 @@
-'use client';
+"use client";
 
-const userid = "65cfae0087c4097b7997817b";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { title } from "@/components/primitives";
 import {
   Card,
@@ -18,6 +16,18 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
+import {
+  getOrganisationMembers,
+  getUserOrganisations,
+} from "@/app/fetch-functions/apifetch"; // Importing the functions
+
+type Organisation = {
+  id: string;
+  name: string;
+  members: string[];
+};
+
+const userid = "65cfa787ac08f4b997cbb389";
 
 type Member = { key: string; label: string };
 
@@ -40,6 +50,8 @@ export default function DocsPage() {
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
     new Set(["text"])
   );
+  const [organisations, setOrganisations] = useState<Organisation[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const selectedValue = Array.from(selectedKeys)
     .join(", ")
@@ -48,6 +60,21 @@ export default function DocsPage() {
   const handleSelectionChange = (keys: Set<string>) => {
     setSelectedKeys(keys);
   };
+
+  useEffect(() => {
+    console.log("Fetching user organisations...");
+    // Fetch user organisations when component mounts
+    getUserOrganisations(userid)
+      .then((orgs) => {
+        setOrganisations(orgs);
+        setLoading(false);
+        console.log("User organisations from page:", orgs);
+      })
+      .catch((error) => {
+        console.error("Error fetching user organisations:", error);
+        setLoading(false);
+      });
+  }, []); // Update effect when userid changes
 
   return (
     <div>
@@ -72,16 +99,16 @@ export default function DocsPage() {
                   <DropdownTrigger>
                     <Button variant="bordered">Open Menu</Button>
                   </DropdownTrigger>
-                  <DropdownMenu aria-label="Dynamic Actions" items={items}>
-                    {(item) => (
+                  <DropdownMenu aria-label="Dynamic Actions">
+                    {organisations.map((org) => (
                       <DropdownItem
-                        key={item.key}
-                        color={item.key === "delete" ? "danger" : "default"}
-                        className={item.key === "delete" ? "text-danger" : ""}
+                        key={org.id}
+                        color={org.id === "delete" ? "danger" : "default"}
+                        className={org.id === "delete" ? "text-danger" : ""}
                       >
-                        {item.label}
+                        {org.name}
                       </DropdownItem>
-                    )}
+                    ))}
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -103,6 +130,7 @@ export default function DocsPage() {
                   selectedKeys={selectedKeys}
                   onSelectionChange={handleSelectionChange}
                 >
+                  {/* Assuming memberList comes from somewhere */}
                   {memberList.map((member) => (
                     <DropdownItem
                       key={member.key}
@@ -116,7 +144,20 @@ export default function DocsPage() {
             </div>
           </div>
         </CardBody>
-        <CardFooter>{/* <p>Make your day free and easy</p> */}</CardFooter>
+        <CardFooter>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <div>
+              <p>User Organisations:</p>
+              <ul>
+                {organisations.map((org) => (
+                  <li key={org.id}>{org.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </CardFooter>
       </Card>
     </div>
   );

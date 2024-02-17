@@ -5,8 +5,9 @@ import { button as buttonStyles } from "@nextui-org/theme";
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
-import DashboardMeetingCard from "@/components/dashboardMeetingCard";
+
 import DashboardOrgNames from "../components/DahsboardOrgNames";
+import DashboardMeetingCard from "@/components/DashboardMeetingCard";
 
 // The Home component will be the user's dashboard
 type Meeting =  {
